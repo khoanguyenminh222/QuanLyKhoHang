@@ -1,0 +1,165 @@
+﻿@model IEnumerable<QLKhoHang.Models.SanPham>
+
+@{
+    ViewBag.Title = "Sản phẩm";
+}
+
+<h2>Danh sách sản phẩm</h2>
+
+@{
+    if ((string)Session["Username"] == "admin")
+    {
+        <p>
+            @Html.ActionLink("Tạo mới", "Create")
+        </p>
+    }
+}
+
+
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+            <input type="text" name="SearchString" placeholder="Tìm kiếm sản phẩm" class="form-control" />
+            <input class="btn btn-info" type="submit" value="Search" />
+        </div>
+
+    </div>
+}
+
+<table class="table table-hover table-bordered Search">
+    <tr>
+        <th>
+            Hình ảnh
+        </th>
+        <th>
+            Tên sản phẩm
+        </th>
+        <th>
+            Nơi nhập
+        </th>
+        <th>
+            Ngày nhập
+        </th>
+        <th>
+            Giá tiền
+        </th>
+        <th>
+            Tồn kho
+        </th>
+        <th>
+            Loại mặt hàng
+        </th>
+        @{
+            if ((string)Session["Username"] == "admin")
+            {
+                <th></th>
+            }
+        }
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @{
+                    var base64 = Convert.ToBase64String(item.hinhAnh);
+                    var imgsrc = string.Format("data:image/gif;base64,{0}", base64);
+                }
+                <img id="@item.maSP" onclick="imgClick(@item.maSP)" src="@imgsrc" style="width:30px; height:30px; object-fit:cover; text-align:center" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.tenSP)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.noiNhap)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ngayNhap)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.giaTien)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.tonKho)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MatHang.loaiMH)
+            </td>
+            @{
+                if ((string)Session["Username"] == "admin")
+                {
+                    <td>
+                        @Html.ActionLink("Chỉnh sửa", "Edit", new { id = item.maSP }) |
+                        @Html.ActionLink("Chi tiết", "Details", new { id = item.maSP }) |
+                        @Html.ActionLink("Xoá", "Delete", new { id = item.maSP })
+                    </td>
+                }
+            }
+
+        </tr>
+    }
+
+</table>
+<ul class="pagination">
+    @{
+        int numberpage = ViewBag.numberPage;
+        int pageCurrent = ViewBag.pageCurrent;
+        if (pageCurrent > 1)
+        {
+            int prePage = pageCurrent - 1;
+            <li><a href="?page=@prePage"><</a></li>
+        }
+        int i;
+        for (i = 1; i <= numberpage; i++)
+        {
+            if (i == pageCurrent)
+            {
+                <li class="active"><a href="?page=@i">@i</a></li>
+            }
+            else
+            {
+                <li><a href="?page=@i">@i</a></li>
+            }
+        }
+        if (pageCurrent > 1 && pageCurrent < numberpage)
+        {
+            int nextPage = pageCurrent += 1;
+            <li><a href="?page=@nextPage">></a></li>
+        }
+    }
+</ul>
+
+@*Create model image*@
+<div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">Hình ảnh</h4>
+            </div>
+            <div class="modal-body text-center">
+                <img src="" id="imagepreview" style="width: 100%; height: 400px; object-fit:cover">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    table,
+    table th {
+        text-align: center
+    }
+</style>
+
+<script>
+    function imgClick(hinhanh) {
+        $('#imagepreview').attr('src', $(`#${hinhanh}`).attr('src'));
+        $('#imagemodal').modal('show');
+    }
+</script>

@@ -1,0 +1,72 @@
+﻿@model QLKhoHang.Models.HoaDon
+
+@{
+    ViewBag.Title = "Xoá hoá đơn";
+}
+
+
+<h2>Bạn đồng ý xoá hoá đơn này?</h2>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Ngày tạo hoá đơn:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ngayTao)
+        </dd>
+        <br />
+        <dt>
+            Tổng tiền
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tongTien)
+        </dd>
+        <br />
+        <dt>
+            Giảm giá:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.giamgia)
+        </dd>
+        <br />
+
+        <dt>
+            Tiền cần trả:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tiencantra)
+        </dd>
+        <br />
+
+        <dt>
+            Trạng thái
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.trangthai)
+        </dd>
+        <br />
+        <dt>
+            Khách hàng:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KhachHang.tenKH)
+        </dd>
+        <br />
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Xác nhận" class="btn btn-danger" /> |
+            @Html.ActionLink("Trở lại", "Index")
+        </div>
+    }
+</div>

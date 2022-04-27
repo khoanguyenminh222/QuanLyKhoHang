@@ -1,0 +1,42 @@
+﻿@model QLKhoHang.Models.KhachHang
+
+@{
+    ViewBag.Title = "Chi tiết khách hàng";
+}
+
+<h2>Chi tiết khách hàng</h2>
+
+<div>
+  
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Tên khách hàng:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tenKH)
+        </dd>
+        <br />
+        <dt>
+            Địa chỉ:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.diaChiKH)
+        </dd>
+        <br />
+        <dt>
+            Số điện thoại:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dienThoaiKH)
+        </dd>
+        <br />
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Chỉnh sửa", "Edit", new { id = Model.maKH }) |
+    @Html.ActionLink("Trở về", "Index")
+</p>

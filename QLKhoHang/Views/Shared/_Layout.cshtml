@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+<link href="~/Content/chosen/chosen.min.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Cửa hàng", "Index", "SanPham", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+
+                    <li>@Html.ActionLink("Sản phẩm", "Index", "SanPham")</li>
+                    @{
+                        if ((string)Session["Username"] == "admin")
+                        {
+                            <li>@Html.ActionLink("Mặt hàng", "Index", "MatHang")</li>
+                            <li>@Html.ActionLink("Nhân viên", "Index", "Users")</li>
+                            <li>@Html.ActionLink("Thống kê", "Index", "ThongKe")</li>
+                        }
+                    }
+                    <li>@Html.ActionLink("Hoá đơn", "Index", "HoaDon")</li>
+                    <li>@Html.ActionLink("Khách Hàng", "Index", "KhachHang")</li>
+
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    @if ((string)Session["Username"] != null)
+                    {
+                        <li><a>Xin chào @Session["name"].ToString()</a></li>
+                    }
+                    @{
+                        if ((string)Session["Username"] != "admin")
+                        {
+                            <li>@Html.ActionLink("Đổi mật khẩu", "ChangePassword", "Users", new { id = (string)Session["Username"]},null)</li>
+                        }
+                    }
+                    <li>@Html.ActionLink("Đăng xuất", "Logout", "Users")</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
+
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

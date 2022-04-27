@@ -1,0 +1,36 @@
+﻿@model QLKhoHang.Models.MatHang
+
+@{
+    ViewBag.Title = "Xoá mặt hàng";
+}
+
+<h3>Bạn chắc chắc muốn xoá mặt hàng này?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Loại mặt hàng:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.loaiMH)
+        </dd>
+
+    </dl>
+
+    @{
+        if (ViewBag.tontaima != null)
+        {
+            <div class="text-danger">@ViewBag.tontaima</div>
+        }
+    }
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-actions no-color">
+            <input type="submit" value="Xoá" class="btn btn-default btn-danger" /> |
+            @Html.ActionLink("Trở về", "Index")
+        </div>
+    }
+</div>

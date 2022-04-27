@@ -1,0 +1,51 @@
+﻿@model IEnumerable<QLKhoHang.Models.user>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Quản lý nhân viên</h2>
+
+<p>
+    @Html.ActionLink("Tạo mới", "Create")
+</p>
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>
+            Tên đăng nhập
+        </th>
+        <th>
+            Tên nhân viên
+        </th>
+        <th>
+            Địa chỉ
+        </th>
+        <th>
+            Số điện thoại
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Username)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tenNV)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.diachiNV)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dienthoaiNV)
+        </td>
+        <td>
+            @Html.ActionLink("Chỉnh sửa", "Edit", new { id = item.Username }) |
+            @Html.ActionLink("Đặt lại mật khẩu", "ResetPassword", new { id = item.Username }) |
+            @Html.ActionLink("Xoá", "Delete", new { id = item.Username })
+        </td>
+    </tr>
+}
+
+</table>

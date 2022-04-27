@@ -1,0 +1,218 @@
+﻿@model QLKhoHang.Models.HoaDonPagination
+
+@{
+    ViewBag.Title = "Hoá đơn";
+}
+<style>
+    table,
+    table th {
+        text-align: center
+    }
+</style>
+
+<h2>Danh sách hoá đơn</h2>
+<p>
+    @Html.ActionLink("Tạo hoá đơn", "Create")
+</p>
+
+<br />
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+            <input type="text" name="SearchString1" placeholder="Tìm kiếm" class="form-control" />
+            <input class="btn btn-info" type="submit" value="Search" />
+        </div>
+
+    </div>
+}
+
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>
+            Tên khách hàng
+        </th>
+        <th>
+            Số điện thoại
+        </th>
+        <th>
+            Ngày tạo hoá đơn
+        </th>
+        <th>
+            Giảm giá
+        </th>
+        <th>
+            Tiền cần trả
+        </th>
+        <th>
+            Trạng thái
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.page1)
+    {
+        if (item.trangthai == "Chưa thanh toán")
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KhachHang.tenKH)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KhachHang.dienThoaiKH)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ngayTao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.giamgia)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tiencantra)
+                </td>
+                <td style="color:red">
+                    @Html.DisplayFor(modelItem => item.trangthai)
+                </td>
+                <td>
+                    
+                    @Html.ActionLink("Xoá", "Delete", new { id = item.maHD }) |
+                    @Html.ActionLink("Chi tiết hoá đơn", "Details", new { id = item.maHD })
+                </td>
+            </tr>
+        }
+    }
+
+</table>
+<ul class="pagination">
+    @{
+        int numberpage1 = ViewBag.numberPage1;
+        int pageCurrent1 = ViewBag.pageCurrent1;
+        if (pageCurrent1 > 1)
+        {
+            int prePage1 = pageCurrent1 - 1;
+            <li><a href="?page1=@prePage1"><</a></li>
+        }
+
+        for (int i = 1; i <= numberpage1; i++)
+        {
+            if (i == pageCurrent1)
+            {
+                <li class="active"><a href="?page1=@i">@i</a></li>
+            }
+            else
+            {
+                <li><a href="?page1=@i">@i</a></li>
+            }
+        }
+        if (pageCurrent1 > 1 && pageCurrent1 < numberpage1)
+        {
+            int nextPage1 = pageCurrent1 += 1;
+            <li><a href="?page1=@nextPage1">></a></li>
+        }
+    }
+</ul>
+
+<br />
+<h2>Đơn hàng đã hoàn tất</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+            <input type="text" name="SearchString2" placeholder="Tìm kiếm" class="form-control" />
+            <input class="btn btn-info" type="submit" value="Search" />
+        </div>
+
+    </div>
+}
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>
+            Tên khách hàng
+        </th>
+        <th>
+            Số điện thoại
+        </th>
+        <th>
+            Ngày tạo hoá đơn
+        </th>
+        <th>
+            Giảm giá
+        </th>
+        <th>
+            Tiền cần trả
+        </th>
+        <th>
+            Trạng thái
+        </th>
+        <th>
+            Nhân viên thanh toán
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.page2)
+    {
+        if (item.trangthai == "Đã thanh toán")
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KhachHang.tenKH)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KhachHang.dienThoaiKH)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ngayTao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.giamgia)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tiencantra)
+                </td>
+                <td style="color:forestgreen">
+                    @Html.DisplayFor(modelItem => item.trangthai)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.user.tenNV)
+                </td>
+                <td>
+                    @Html.ActionLink("Xoá", "Delete", new { id = item.maHD }) |
+                    @Html.ActionLink("Xuất hoá đơn", "Export", new { id = item.maHD })
+                </td>
+            </tr>
+        }
+    }
+
+</table>
+<ul class="pagination">
+    @{
+        int numberpage2 = ViewBag.numberPage2;
+        int pageCurrent2 = ViewBag.pageCurrent2;
+        if (pageCurrent2 > 1)
+        {
+            int prePage2 = pageCurrent2 - 1;
+            <li><a href="?page2=@prePage2"><</a></li>
+        }
+
+        for (int i = 1; i <= numberpage2; i++)
+        {
+            if (i == pageCurrent2)
+            {
+                <li class="active"><a href="?page2=@i">@i</a></li>
+            }
+            else
+            {
+                <li><a href="?page2=@i">@i</a></li>
+            }
+        }
+        if (pageCurrent2 > 1 && pageCurrent2 < numberpage2)
+        {
+            int nextPage2 = pageCurrent2 += 1;
+            <li><a href="?page2=@nextPage2">></a></li>
+        }
+    }
+</ul>

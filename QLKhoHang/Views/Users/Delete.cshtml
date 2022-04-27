@@ -1,0 +1,42 @@
+﻿@model QLKhoHang.Models.user
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Bạn có chắc chắn muốn xoá tài khoản này?</h2>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Tên người dùng
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Username)
+        </dd>
+        <br />
+        <dt>
+            Mật khẩu
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Password)
+        </dd>
+
+    </dl>
+    @{
+        if (ViewBag.ErrorNV != null)
+        {
+            <div class="text-danger">@ViewBag.ErrorNV</div>
+        }
+    }
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Xoá" class="btn btn-default" /> |
+            @Html.ActionLink("Quay lại", "Index")
+        </div>
+    }
+</div>

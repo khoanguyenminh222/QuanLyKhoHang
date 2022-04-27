@@ -1,0 +1,56 @@
+﻿@model QLKhoHang.Models.KhachHang
+
+@{
+    ViewBag.Title = "Xoá khách hàng";
+}
+
+
+
+<h2>Bạn có muốn xoá khách hàng này?</h2>
+<div>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Tên khách hàng:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tenKH)
+        </dd>
+        <br />
+        <dt>
+            Địa chỉ:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.diaChiKH)
+        </dd>
+        <br />
+        <dt>
+            Số điện thoại:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dienThoaiKH)
+        </dd>
+        <br />
+    </dl>
+
+    @{
+        if (ViewBag.tontaiHD != null)
+        {
+            <div class="text-danger">@ViewBag.tontaiHD</div>
+        }
+    }
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Xoá" class="btn btn-default btn-danger" /> |
+            @Html.ActionLink("Trở về", "Index")
+        </div>
+    }
+</div>

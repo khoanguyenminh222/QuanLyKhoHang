@@ -1,0 +1,76 @@
+﻿@model IEnumerable<QLKhoHang.Models.MatHang>
+
+@{
+    ViewBag.Title = "Mặt hàng";
+}
+
+<h2>Danh sách loại mặt hàng</h2>
+
+<p>
+    @Html.ActionLink("Tạo mới", "Create")
+</p>
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>
+            Loại mặt hàng
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.loaiMH)
+            </td>
+            <td>
+                @Html.ActionLink("Chỉnh sửa", "Edit", new { id = item.maMH }) |
+                @Html.ActionLink("Xoá", "Delete", new { id = item.maMH })
+            </td>
+        </tr>
+    }
+
+</table>
+<ul class="pagination">
+    @{
+        int numberpage = ViewBag.numberPage;
+        int pageCurrent = ViewBag.pageCurrent;
+        if (pageCurrent > 1)
+        {
+            int prePage = pageCurrent - 1;
+            <li><a href="?page=@prePage"><</a></li>
+        }
+
+        for (int i = 1; i <= numberpage; i++)
+        {
+            if (i == pageCurrent)
+            {
+                <li class="active"><a href="?page=@i">@i</a></li>
+            }
+            else
+            {
+                <li><a href="?page=@i">@i</a></li>
+            }
+        }
+        if (pageCurrent > 1 && pageCurrent < numberpage)
+        {
+            int nextPage = pageCurrent += 1;
+            <li><a href="?page=@nextPage">></a></li>
+        }
+    }
+</ul>
+
+
+<style>
+    table,
+    table th {
+        text-align: center
+    }
+</style>
+
+<script>
+    function imgClick(hinhanh) {
+        $('#imagepreview').attr('src', $(`#${hinhanh}`).attr('src'));
+        $('#imagemodal').modal('show');
+    }
+</script>

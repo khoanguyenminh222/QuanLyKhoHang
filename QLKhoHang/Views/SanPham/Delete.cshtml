@@ -1,0 +1,106 @@
+﻿@model QLKhoHang.Models.SanPham
+
+@{
+    ViewBag.Title = "Xoá sản phẩm";
+}
+
+<h2>Bạn có muốn xoá sản phẩm này?</h2>
+<hr />
+<div class="row">
+    <div class="col-lg-6 col-sm-6  mx-auto">
+
+        <dl class="dl-horizontal">
+            <dt>
+                Tên sản phẩm:
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.tenSP)
+            </dd>
+            <br />
+            <dt>
+                Nơi nhập:
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.noiNhap)
+            </dd>
+            <br />
+            <dt>
+                Ngày nhập:
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ngayNhap)
+            </dd>
+            <br />
+            <dt>
+                Giá tiền:
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.giaTien)
+            </dd>
+            <br />
+            <dt>
+                Tồn kho:
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.tonKho)
+            </dd>
+            <br />
+            <dt>
+                Loại mặt hàng:
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MatHang.loaiMH)
+            </dd>
+
+        </dl>
+        @{
+            if (ViewBag.tontaiSP!=null)
+            {
+                <div class="alert alert-danger">@ViewBag.tontaiSP</div>
+            }
+        }
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Xoá" class="btn btn-default btn-danger" /> |
+                @Html.ActionLink("Trở về", "Index")
+            </div>
+        }
+    </div>
+    <div class="col-lg-6 col-sm-6  mx-auto">
+        <div class="form-group product-img">
+            @{
+                var base64 = Convert.ToBase64String(Model.hinhAnh);
+                var imgsrc = string.Format("data:image/gif;base64,{0}", base64);
+            }
+            <img id="anhsp" src="@imgsrc" />
+        </div>
+    </div>
+</div>
+
+<style>
+    .product-img {
+        max-width: 50%;
+        height: 240px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        background: #aaa;
+    }
+
+    #anhsp {
+        max-width: 100%;
+        height: 240px;
+        object-fit: cover;
+    }
+</style>

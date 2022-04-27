@@ -1,0 +1,76 @@
+﻿@model IEnumerable<QLKhoHang.Models.HoaDon>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Thống kê</h2>
+@using (Html.BeginForm())
+{
+    <div>
+
+        Từ <input name="dateFrom" type="date" />
+
+        Đến <input name="dateTo" type="date" />
+        <button type="submit" class="btn btn-info">Tìm kiếm</button>
+
+    </div>
+}
+
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>
+            Ngày tạo
+        </th>
+        <th>
+            Giảm giá
+        </th>
+        <th>
+            Tiền cần trả
+        </th>
+        <th>
+            Tên khách hàng
+        </th>
+        <th>
+            Trạng thái
+        </th>
+        <th>
+            Nhân viên thanh toán
+        </th>
+        <th></th>
+    </tr>
+
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            if (item.trangthai == "Đã thanh toán")
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ngayTao)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.giamgia)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.tiencantra)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.KhachHang.tenKH)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.trangthai)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.user.tenNV)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Chi tiết hoá đơn", "Export", "HoaDon", new { id = item.maHD },null)
+                    </td>
+                </tr>
+            }
+
+        }
+    }
+</table>

@@ -1,0 +1,457 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="KhoHangModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ChiTietHoaDon">
+          <Key>
+            <PropertyRef Name="maCTHD" />
+          </Key>
+          <Property Name="maCTHD" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="maSP" Type="int" Nullable="false" />
+          <Property Name="maMH" Type="int" Nullable="false" />
+          <Property Name="maHD" Type="int" Nullable="false" />
+          <Property Name="giaTien" Type="int" Nullable="false" />
+          <Property Name="soLuong" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HoaDon">
+          <Key>
+            <PropertyRef Name="maHD" />
+          </Key>
+          <Property Name="maHD" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="maKH" Type="int" Nullable="false" />
+          <Property Name="ngayTao" Type="datetime" Nullable="false" />
+          <Property Name="giamgia" Type="int" />
+          <Property Name="tongTien" Type="int" Nullable="false" />
+          <Property Name="tiencantra" Type="int" Nullable="false" />
+          <Property Name="trangthai" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="tenNV" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="KhachHang">
+          <Key>
+            <PropertyRef Name="maKH" />
+          </Key>
+          <Property Name="maKH" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tenKH" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="diaChiKH" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="dienThoaiKH" Type="nvarchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MatHang">
+          <Key>
+            <PropertyRef Name="maMH" />
+          </Key>
+          <Property Name="maMH" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="loaiMH" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SanPham">
+          <Key>
+            <PropertyRef Name="maSP" />
+          </Key>
+          <Property Name="maSP" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tenSP" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="hinhAnh" Type="image" Nullable="false" />
+          <Property Name="maMH" Type="int" Nullable="false" />
+          <Property Name="noiNhap" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ngayNhap" Type="datetime" Nullable="false" />
+          <Property Name="giaTien" Type="int" Nullable="false" />
+          <Property Name="tonKho" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="tenNV" Type="nvarchar" MaxLength="100" />
+          <Property Name="diachiNV" Type="nvarchar" MaxLength="100" />
+          <Property Name="dienthoaiNV" Type="nvarchar" MaxLength="12" />
+        </EntityType>
+        <Association Name="FK__ChiTietHoa__maHD__34C8D9D1">
+          <End Role="HoaDon" Type="Self.HoaDon" Multiplicity="1" />
+          <End Role="ChiTietHoaDon" Type="Self.ChiTietHoaDon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HoaDon">
+              <PropertyRef Name="maHD" />
+            </Principal>
+            <Dependent Role="ChiTietHoaDon">
+              <PropertyRef Name="maHD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ChiTietHoa__maMH__32E0915F">
+          <End Role="MatHang" Type="Self.MatHang" Multiplicity="1" />
+          <End Role="ChiTietHoaDon" Type="Self.ChiTietHoaDon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MatHang">
+              <PropertyRef Name="maMH" />
+            </Principal>
+            <Dependent Role="ChiTietHoaDon">
+              <PropertyRef Name="maMH" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ChiTietHoa__maSP__33D4B598">
+          <End Role="SanPham" Type="Self.SanPham" Multiplicity="1" />
+          <End Role="ChiTietHoaDon" Type="Self.ChiTietHoaDon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SanPham">
+              <PropertyRef Name="maSP" />
+            </Principal>
+            <Dependent Role="ChiTietHoaDon">
+              <PropertyRef Name="maSP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__HoaDon__maKH__300424B4">
+          <End Role="KhachHang" Type="Self.KhachHang" Multiplicity="1" />
+          <End Role="HoaDon" Type="Self.HoaDon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KhachHang">
+              <PropertyRef Name="maKH" />
+            </Principal>
+            <Dependent Role="HoaDon">
+              <PropertyRef Name="maKH" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__HoaDon__tenNV__47DBAE45">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="HoaDon" Type="Self.HoaDon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="Username" />
+            </Principal>
+            <Dependent Role="HoaDon">
+              <PropertyRef Name="tenNV" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SanPham__maMH__2A4B4B5E">
+          <End Role="MatHang" Type="Self.MatHang" Multiplicity="1" />
+          <End Role="SanPham" Type="Self.SanPham" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MatHang">
+              <PropertyRef Name="maMH" />
+            </Principal>
+            <Dependent Role="SanPham">
+              <PropertyRef Name="maMH" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="KhoHangModelStoreContainer">
+          <EntitySet Name="ChiTietHoaDon" EntityType="Self.ChiTietHoaDon" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HoaDon" EntityType="Self.HoaDon" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KhachHang" EntityType="Self.KhachHang" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MatHang" EntityType="Self.MatHang" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SanPham" EntityType="Self.SanPham" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__ChiTietHoa__maHD__34C8D9D1" Association="Self.FK__ChiTietHoa__maHD__34C8D9D1">
+            <End Role="HoaDon" EntitySet="HoaDon" />
+            <End Role="ChiTietHoaDon" EntitySet="ChiTietHoaDon" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ChiTietHoa__maMH__32E0915F" Association="Self.FK__ChiTietHoa__maMH__32E0915F">
+            <End Role="MatHang" EntitySet="MatHang" />
+            <End Role="ChiTietHoaDon" EntitySet="ChiTietHoaDon" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ChiTietHoa__maSP__33D4B598" Association="Self.FK__ChiTietHoa__maSP__33D4B598">
+            <End Role="SanPham" EntitySet="SanPham" />
+            <End Role="ChiTietHoaDon" EntitySet="ChiTietHoaDon" />
+          </AssociationSet>
+          <AssociationSet Name="FK__HoaDon__maKH__300424B4" Association="Self.FK__HoaDon__maKH__300424B4">
+            <End Role="KhachHang" EntitySet="KhachHang" />
+            <End Role="HoaDon" EntitySet="HoaDon" />
+          </AssociationSet>
+          <AssociationSet Name="FK__HoaDon__tenNV__47DBAE45" Association="Self.FK__HoaDon__tenNV__47DBAE45">
+            <End Role="users" EntitySet="users" />
+            <End Role="HoaDon" EntitySet="HoaDon" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SanPham__maMH__2A4B4B5E" Association="Self.FK__SanPham__maMH__2A4B4B5E">
+            <End Role="MatHang" EntitySet="MatHang" />
+            <End Role="SanPham" EntitySet="SanPham" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="KhoHangModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ChiTietHoaDon">
+          <Key>
+            <PropertyRef Name="maCTHD" />
+          </Key>
+          <Property Name="maCTHD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="maSP" Type="Int32" Nullable="false" />
+          <Property Name="maMH" Type="Int32" Nullable="false" />
+          <Property Name="maHD" Type="Int32" Nullable="false" />
+          <Property Name="giaTien" Type="Int32" Nullable="false" />
+          <Property Name="soLuong" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="HoaDon" Relationship="Self.FK__ChiTietHoa__maHD__34C8D9D1" FromRole="ChiTietHoaDon" ToRole="HoaDon" />
+          <NavigationProperty Name="MatHang" Relationship="Self.FK__ChiTietHoa__maMH__32E0915F" FromRole="ChiTietHoaDon" ToRole="MatHang" />
+          <NavigationProperty Name="SanPham" Relationship="Self.FK__ChiTietHoa__maSP__33D4B598" FromRole="ChiTietHoaDon" ToRole="SanPham" />
+        </EntityType>
+        <EntityType Name="HoaDon">
+          <Key>
+            <PropertyRef Name="maHD" />
+          </Key>
+          <Property Name="maHD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="maKH" Type="Int32" Nullable="false" />
+          <Property Name="ngayTao" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="giamgia" Type="Int32" />
+          <Property Name="tongTien" Type="Int32" Nullable="false" />
+          <Property Name="tiencantra" Type="Int32" Nullable="false" />
+          <Property Name="trangthai" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="tenNV" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ChiTietHoaDons" Relationship="Self.FK__ChiTietHoa__maHD__34C8D9D1" FromRole="HoaDon" ToRole="ChiTietHoaDon" />
+          <NavigationProperty Name="KhachHang" Relationship="Self.FK__HoaDon__maKH__300424B4" FromRole="HoaDon" ToRole="KhachHang" />
+          <NavigationProperty Name="user" Relationship="Self.FK__HoaDon__tenNV__47DBAE45" FromRole="HoaDon" ToRole="users" />
+        </EntityType>
+        <EntityType Name="KhachHang">
+          <Key>
+            <PropertyRef Name="maKH" />
+          </Key>
+          <Property Name="maKH" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tenKH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="diaChiKH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="dienThoaiKH" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="HoaDons" Relationship="Self.FK__HoaDon__maKH__300424B4" FromRole="KhachHang" ToRole="HoaDon" />
+        </EntityType>
+        <EntityType Name="MatHang">
+          <Key>
+            <PropertyRef Name="maMH" />
+          </Key>
+          <Property Name="maMH" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="loaiMH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ChiTietHoaDons" Relationship="Self.FK__ChiTietHoa__maMH__32E0915F" FromRole="MatHang" ToRole="ChiTietHoaDon" />
+          <NavigationProperty Name="SanPhams" Relationship="Self.FK__SanPham__maMH__2A4B4B5E" FromRole="MatHang" ToRole="SanPham" />
+        </EntityType>
+        <EntityType Name="SanPham">
+          <Key>
+            <PropertyRef Name="maSP" />
+          </Key>
+          <Property Name="maSP" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tenSP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="hinhAnh" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="maMH" Type="Int32" Nullable="false" />
+          <Property Name="noiNhap" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ngayNhap" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="giaTien" Type="Int32" Nullable="false" />
+          <Property Name="tonKho" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ChiTietHoaDons" Relationship="Self.FK__ChiTietHoa__maSP__33D4B598" FromRole="SanPham" ToRole="ChiTietHoaDon" />
+          <NavigationProperty Name="MatHang" Relationship="Self.FK__SanPham__maMH__2A4B4B5E" FromRole="SanPham" ToRole="MatHang" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="tenNV" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="diachiNV" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="dienthoaiNV" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="HoaDons" Relationship="Self.FK__HoaDon__tenNV__47DBAE45" FromRole="users" ToRole="HoaDon" />
+        </EntityType>
+        <Association Name="FK__ChiTietHoa__maHD__34C8D9D1">
+          <End Role="HoaDon" Type="Self.HoaDon" Multiplicity="1" />
+          <End Role="ChiTietHoaDon" Type="Self.ChiTietHoaDon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HoaDon">
+              <PropertyRef Name="maHD" />
+            </Principal>
+            <Dependent Role="ChiTietHoaDon">
+              <PropertyRef Name="maHD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ChiTietHoa__maMH__32E0915F">
+          <End Role="MatHang" Type="Self.MatHang" Multiplicity="1" />
+          <End Role="ChiTietHoaDon" Type="Self.ChiTietHoaDon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MatHang">
+              <PropertyRef Name="maMH" />
+            </Principal>
+            <Dependent Role="ChiTietHoaDon">
+              <PropertyRef Name="maMH" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ChiTietHoa__maSP__33D4B598">
+          <End Role="SanPham" Type="Self.SanPham" Multiplicity="1" />
+          <End Role="ChiTietHoaDon" Type="Self.ChiTietHoaDon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SanPham">
+              <PropertyRef Name="maSP" />
+            </Principal>
+            <Dependent Role="ChiTietHoaDon">
+              <PropertyRef Name="maSP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__HoaDon__maKH__300424B4">
+          <End Role="KhachHang" Type="Self.KhachHang" Multiplicity="1" />
+          <End Role="HoaDon" Type="Self.HoaDon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KhachHang">
+              <PropertyRef Name="maKH" />
+            </Principal>
+            <Dependent Role="HoaDon">
+              <PropertyRef Name="maKH" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__HoaDon__tenNV__47DBAE45">
+          <End Role="users" Type="Self.user" Multiplicity="0..1" />
+          <End Role="HoaDon" Type="Self.HoaDon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="Username" />
+            </Principal>
+            <Dependent Role="HoaDon">
+              <PropertyRef Name="tenNV" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SanPham__maMH__2A4B4B5E">
+          <End Role="MatHang" Type="Self.MatHang" Multiplicity="1" />
+          <End Role="SanPham" Type="Self.SanPham" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MatHang">
+              <PropertyRef Name="maMH" />
+            </Principal>
+            <Dependent Role="SanPham">
+              <PropertyRef Name="maMH" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="KhoHangEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ChiTietHoaDons" EntityType="Self.ChiTietHoaDon" />
+          <EntitySet Name="HoaDons" EntityType="Self.HoaDon" />
+          <EntitySet Name="KhachHangs" EntityType="Self.KhachHang" />
+          <EntitySet Name="MatHangs" EntityType="Self.MatHang" />
+          <EntitySet Name="SanPhams" EntityType="Self.SanPham" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <AssociationSet Name="FK__ChiTietHoa__maHD__34C8D9D1" Association="Self.FK__ChiTietHoa__maHD__34C8D9D1">
+            <End Role="HoaDon" EntitySet="HoaDons" />
+            <End Role="ChiTietHoaDon" EntitySet="ChiTietHoaDons" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ChiTietHoa__maMH__32E0915F" Association="Self.FK__ChiTietHoa__maMH__32E0915F">
+            <End Role="MatHang" EntitySet="MatHangs" />
+            <End Role="ChiTietHoaDon" EntitySet="ChiTietHoaDons" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ChiTietHoa__maSP__33D4B598" Association="Self.FK__ChiTietHoa__maSP__33D4B598">
+            <End Role="SanPham" EntitySet="SanPhams" />
+            <End Role="ChiTietHoaDon" EntitySet="ChiTietHoaDons" />
+          </AssociationSet>
+          <AssociationSet Name="FK__HoaDon__maKH__300424B4" Association="Self.FK__HoaDon__maKH__300424B4">
+            <End Role="KhachHang" EntitySet="KhachHangs" />
+            <End Role="HoaDon" EntitySet="HoaDons" />
+          </AssociationSet>
+          <AssociationSet Name="FK__HoaDon__tenNV__47DBAE45" Association="Self.FK__HoaDon__tenNV__47DBAE45">
+            <End Role="users" EntitySet="users" />
+            <End Role="HoaDon" EntitySet="HoaDons" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SanPham__maMH__2A4B4B5E" Association="Self.FK__SanPham__maMH__2A4B4B5E">
+            <End Role="MatHang" EntitySet="MatHangs" />
+            <End Role="SanPham" EntitySet="SanPhams" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="KhoHangModelStoreContainer" CdmEntityContainer="KhoHangEntities">
+          <EntitySetMapping Name="ChiTietHoaDons">
+            <EntityTypeMapping TypeName="KhoHangModel.ChiTietHoaDon">
+              <MappingFragment StoreEntitySet="ChiTietHoaDon">
+                <ScalarProperty Name="maCTHD" ColumnName="maCTHD" />
+                <ScalarProperty Name="maSP" ColumnName="maSP" />
+                <ScalarProperty Name="maMH" ColumnName="maMH" />
+                <ScalarProperty Name="maHD" ColumnName="maHD" />
+                <ScalarProperty Name="giaTien" ColumnName="giaTien" />
+                <ScalarProperty Name="soLuong" ColumnName="soLuong" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HoaDons">
+            <EntityTypeMapping TypeName="KhoHangModel.HoaDon">
+              <MappingFragment StoreEntitySet="HoaDon">
+                <ScalarProperty Name="maHD" ColumnName="maHD" />
+                <ScalarProperty Name="maKH" ColumnName="maKH" />
+                <ScalarProperty Name="ngayTao" ColumnName="ngayTao" />
+                <ScalarProperty Name="giamgia" ColumnName="giamgia" />
+                <ScalarProperty Name="tongTien" ColumnName="tongTien" />
+                <ScalarProperty Name="tiencantra" ColumnName="tiencantra" />
+                <ScalarProperty Name="trangthai" ColumnName="trangthai" />
+                <ScalarProperty Name="tenNV" ColumnName="tenNV" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KhachHangs">
+            <EntityTypeMapping TypeName="KhoHangModel.KhachHang">
+              <MappingFragment StoreEntitySet="KhachHang">
+                <ScalarProperty Name="maKH" ColumnName="maKH" />
+                <ScalarProperty Name="tenKH" ColumnName="tenKH" />
+                <ScalarProperty Name="diaChiKH" ColumnName="diaChiKH" />
+                <ScalarProperty Name="dienThoaiKH" ColumnName="dienThoaiKH" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MatHangs">
+            <EntityTypeMapping TypeName="KhoHangModel.MatHang">
+              <MappingFragment StoreEntitySet="MatHang">
+                <ScalarProperty Name="maMH" ColumnName="maMH" />
+                <ScalarProperty Name="loaiMH" ColumnName="loaiMH" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SanPhams">
+            <EntityTypeMapping TypeName="KhoHangModel.SanPham">
+              <MappingFragment StoreEntitySet="SanPham">
+                <ScalarProperty Name="maSP" ColumnName="maSP" />
+                <ScalarProperty Name="tenSP" ColumnName="tenSP" />
+                <ScalarProperty Name="hinhAnh" ColumnName="hinhAnh" />
+                <ScalarProperty Name="maMH" ColumnName="maMH" />
+                <ScalarProperty Name="noiNhap" ColumnName="noiNhap" />
+                <ScalarProperty Name="ngayNhap" ColumnName="ngayNhap" />
+                <ScalarProperty Name="giaTien" ColumnName="giaTien" />
+                <ScalarProperty Name="tonKho" ColumnName="tonKho" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="KhoHangModel.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="tenNV" ColumnName="tenNV" />
+                <ScalarProperty Name="diachiNV" ColumnName="diachiNV" />
+                <ScalarProperty Name="dienthoaiNV" ColumnName="dienthoaiNV" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

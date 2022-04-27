@@ -1,0 +1,137 @@
+﻿@model QLKhoHang.Models.HoaDonViewModel
+@{
+    ViewBag.Title = "Xuất hoá đơn";
+}
+<style>
+    table,
+    table th {
+        text-align: center
+    }
+</style>
+<h2>Thông tin hoá đơn</h2>
+@{
+    if (ViewBag.xuathoadon != null)
+    {
+        <div class="alert alert-success">@ViewBag.xuathoadon</div>
+    }
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="card">
+        <div class="card-header">
+            <p id="maHD" data="@Model.HoaDons.maHD">Mã hoá đơn: @Model.HoaDons.maHD</p>
+            <span class="float-right"> <strong>Tên nhân viên thanh toán:</strong> <p>@Model.HoaDons.user.tenNV</p></span>
+            <span class="float-right"> <strong>Trạng thái:</strong> <p style="color:forestgreen">@Model.HoaDons.trangthai</p></span>
+
+        </div>
+        <br />
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-lg-5 col-md-5 col-sm-5">
+                    <div>Cửa hàng quần áo</div>
+                    <div>55-56 Hai Bà Trưng Q1, TPHCM</div>
+                    <div>Email: shopping@gmail.com</div>
+                    <div>Phone: +84 888 977 646</div>
+                </div>
+
+                <div class="col-lg-7 col-md-7 col-sm-7">
+                    <div class="float-right form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.KhachHang.tenKH, "Tên khách hàng", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => Model.KhachHang.tenKH, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                                @Html.ValidationMessageFor(model => Model.KhachHang.tenKH, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.KhachHang.dienThoaiKH, "Điện thoại", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => Model.KhachHang.dienThoaiKH, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                                @Html.ValidationMessageFor(model => Model.KhachHang.dienThoaiKH, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive-sm">
+                <table class="table table-striped" id="sanphamduocthem">
+                    <thead>
+                        <tr>
+                            <th class="center">STT</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Loại sản phẩm</th>
+                            <th class="right">Đơn giá</th>
+                            <th class="center">Số lượng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int i = 1;
+                            foreach (var Item in Model.ChiTietHoaDons)
+                            {
+                                <tr>
+                                    <td class="center">@i</td>
+                                    <td class="left strong">@Item.SanPham.tenSP</td>
+                                    <td class="center">@Item.SanPham.MatHang.loaiMH</td>
+
+                                    <td class="right">@Item.SanPham.giaTien</td>
+                                    <td class="center">@Item.soLuong</td>
+
+                                </tr>
+                                i += 1;
+                            }
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-sm-5">
+
+                </div>
+
+                <div class="col-lg-4 col-sm-5 ml-auto">
+                    <table class="table table-clear">
+                        <tbody id="hienthitongtien">
+                            <tr>
+                                <td class="left">
+                                    <strong>Tổng giá tiền sản phẩm</strong>
+                                </td>
+                                <td class="right" id="tongtien" data="@Model.HoaDons.tongTien">@Model.HoaDons.tongTien</td>
+                            </tr>
+                            <tr>
+                                <td class="left">
+                                    <strong>Giảm giá</strong>
+                                    <select name="discount" id="discount" onchange="GiamGia()">
+                                        <option value="-1">Chọn mã giảm giá</option>
+                                        <option value="0">Không giảm giá</option>
+                                        <option value="10">10%</option>
+                                        <option value="20">20%</option>
+                                    </select>
+                                </td>
+                                <td class="right" id="tienduocgiam">@Model.HoaDons.giamgia</td>
+                            </tr>
+                            <tr>
+                                <td class="left">
+                                    <strong>Cần phải trả</strong>
+                                </td>
+                                <td class="right" id="tiencantra">
+                                    <strong>@Model.HoaDons.tiencantra</strong>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div style="display:flex;justify-content:space-between">
+        @Html.ActionLink("Trở lại", "Index")
+        <button class="btn btn-success btnThanhToan" type="submit">Xuất hoá đơn</button>
+    </div>
+}

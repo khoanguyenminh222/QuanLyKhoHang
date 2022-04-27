@@ -1,0 +1,420 @@
+﻿@model QLKhoHang.Models.HoaDonViewModel
+
+@{
+    ViewBag.Title = "Chi tiết hoá đơn";
+}
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+<style>
+    table,
+    table th {
+        text-align: center
+    }
+</style>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="card">
+        <div class="card-header">
+            <h1>Hoá đơn</h1>
+            <p id="maHD" data="@Model.HoaDons.maHD">Mã hoá đơn: @Model.HoaDons.maHD</p>
+            <span class="float-right"> <strong>Trạng thái:</strong> @Model.HoaDons.trangthai</span>
+
+        </div>
+        <br />
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-lg-5 col-md-5 col-sm-5">
+                    <div>Cửa hàng quần áo</div>
+                    <div>55-56 Hai Bà Trưng Q1, TPHCM</div>
+                    <div>Email: shopping@gmail.com</div>
+                    <div>Phone: +84 888 977 646</div>
+                </div>
+
+                <div class="col-lg-7 col-md-7 col-sm-7">
+                    <div class="float-right form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.KhachHang.tenKH, "Tên khách hàng", htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => Model.KhachHang.tenKH, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                                @Html.ValidationMessageFor(model => Model.KhachHang.tenKH, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.KhachHang.dienThoaiKH, "Điện thoại", htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => Model.KhachHang.dienThoaiKH, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                                @Html.ValidationMessageFor(model => Model.KhachHang.dienThoaiKH, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive-sm">
+                <table class="table table-bordered table-hover" id="sanphamduocthem">
+                    <thead>
+                        <tr>
+                            <th class="center">STT</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Loại sản phẩm</th>
+                            <th class="right">Đơn giá</th>
+                            <th class="center">Số lượng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int i = 1;
+                            foreach (var Item in Model.ChiTietHoaDons)
+                            {
+                                <tr>
+                                    <td class="center">@i</td>
+                                    <td class="left strong">@Item.SanPham.tenSP</td>
+                                    <td class="center">@Item.SanPham.MatHang.loaiMH</td>
+
+                                    <td class="right">@Item.SanPham.giaTien</td>
+                                    <td class="center">@Item.soLuong</td>
+                                    <td><a href="#" class="btn btn-danger btnDelProduct" data="@Item.maCTHD">Xoá</a></td>
+                                </tr>
+                                i += 1;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-sm-5">
+
+                </div>
+
+                <div class="col-lg-4 col-sm-5 ml-auto">
+                    <table class="table table-bordered table-hover">
+                        <tbody id="hienthitongtien">
+                            <tr>
+                                <td class="left">
+                                    <strong>Tổng giá tiền sản phẩm</strong>
+                                </td>
+                                <td class="right" id="tongtien" data="@Model.HoaDons.tongTien">@Model.HoaDons.tongTien</td>
+                            </tr>
+                            <tr>
+                                <td class="left">
+                                    <strong>Giảm giá</strong>
+                                    <select name="discount" id="discount" onchange="GiamGia()">
+                                        <option value="-1">Chọn mã giảm giá</option>
+                                        <option value="0">Không giảm giá</option>
+                                        <option value="10">10%</option>
+                                        <option value="20">20%</option>
+                                    </select>
+                                </td>
+                                <td class="right" id="tienduocgiam">@Model.HoaDons.giamgia</td>
+                            </tr>
+                            <tr>
+                                <td class="left">
+                                    <strong>Cần phải trả</strong>
+                                </td>
+                                <td class="right" id="tiencantra">
+                                    <strong>@Model.HoaDons.tiencantra</strong>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div style="display:flex;justify-content:space-between">
+        @Html.ActionLink("Trở lại", "Index")
+
+        @{
+            if (Model.HoaDons.tiencantra <= 0)
+            {
+                <button id="btnTT" class="btn btn-success btnThanhToan" type="submit" disabled>Thanh toán</button>
+            }
+            else
+            {
+                <button class="btn btn-success btnThanhToan" type="submit">Thanh toán</button>
+            }
+        }
+
+
+
+
+    </div>
+
+}
+
+
+<br />
+<h2>Danh sách sản phẩm</h2>
+
+@using (Html.BeginForm("Details", "HoaDon", FormMethod.Get))
+{
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+            <input type="text" name="SearchString" placeholder="Tìm kiếm sản phẩm" class="form-control" />
+            <input class="btn btn-info" type="submit" value="Search" />
+        </div>
+
+    </div>
+}
+
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Hình ảnh</th>
+            <th>Tên sản phẩm</th>
+            <th>Giá sản phẩm</th>
+            <th>Tồn kho</th>
+            <th>Số lượng mua</th>
+        </tr>
+    </thead>
+
+    <tbody id="hienthisanpham">
+        @foreach (var Item in Model.SanPhams)
+        {
+            <tr id="@Item.maSP">
+                <td>
+                    @{
+                        var base64 = Convert.ToBase64String(Item.hinhAnh);
+                        var imgsrc = string.Format("data:image/gif;base64,{0}", base64);
+                    }
+                    <img id="hinhanh_@Item.maSP" onclick="imgClick('hinhanh_'+@Item.maSP)" src="@imgsrc" style="width:30px; height:30px; object-fit:cover; text-align:center" />
+                </td>
+                <td>@Item.tenSP</td>
+                <td>@Item.giaTien</td>
+
+                <td id="tonkho-@Item.maSP">@Item.tonKho</td>
+                <td><input type="number" data="soluong" /></td>
+                <td><a href="#" class="btn btn-secondary btnAddProduct" data="@Item.maSP">Thêm</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+<ul class="pagination">
+    @{
+        int numberpage = ViewBag.numberPage;
+        int pageCurrent = ViewBag.pageCurrent;
+        if (pageCurrent > 1)
+        {
+            int prePage = pageCurrent - 1;
+            <li><a href="?page=@prePage"><</a></li>
+        }
+
+        for (int i = 1; i <= numberpage; i++)
+        {
+            if (i == pageCurrent)
+            {
+                <li class="active"><a href="?page=@i">@i</a></li>
+            }
+            else
+            {
+                <li><a href="?page=@i">@i</a></li>
+            }
+        }
+        if (pageCurrent > 1 && pageCurrent < numberpage)
+        {
+            int nextPage = pageCurrent += 1;
+            <li><a href="?page=@nextPage">></a></li>
+        }
+    }
+</ul>
+
+
+
+@*Create model image*@
+<div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">Hình ảnh</h4>
+            </div>
+            <div class="modal-body text-center">
+                <img src="" id="imagepreview" style="width: 100%; height: 400px; object-fit:cover">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            //LoadTongTien();
+        });
+        $('body').delegate('.btnAddProduct', 'click', function (e) {
+            e.preventDefault();
+            // lấy mã sản phẩm
+            var idSP = $(this).attr('data');
+
+            // lấy mã hoá đơn
+            var maHD = $('#maHD').attr('data');
+
+            //lấy ra số lượng sản phẩm
+            var prevRowSoluong = $(this).closest('tr').find("td:eq(4)").find("input");
+            var soluong = prevRowSoluong.val();
+
+            //lấy ra biến tăng i
+            var count = $('#sanphamduocthem tbody').find('tr').last().find("td:eq(0)").html();
+
+            $.ajax({
+                url: '/HoaDon/AddColumnProduct/' + idSP + '/',
+                method: 'post',
+                data: { maHD: maHD, soluong: soluong, count: count },
+                success: function (data) {
+                    if (data.isvalid) {
+                        $('#sanphamduocthem tr:last').after("<tr><td class='center'>" + data.dem + "</td><td class='left strong'>" + data.tenSP + "</td><td class='center'>" + data.loaiMH + "</td><td class='right'>" + data.giaTien + "</td><td class='center'>" + data.soluong + "</td><td><a href='#' class='btn btn-danger btnDelProduct' data='" + data.maCTHD + "'>Xoá</a></td></tr>");
+                        prevRowSoluong.val("");
+
+                        $('#btnTT').prop("disabled", false);
+
+                        LoadTongTien();
+                        LoadTonKho();
+
+                        return;
+                    }
+                    alert(data.msg);
+                },
+                failed: function () {
+                    alert("error");
+                }
+            });
+        });
+        $('body').delegate('.btnDelProduct', 'click', function (e) {
+            e.preventDefault();
+            var atag = $(this);
+            var idproduct = atag.attr('data');
+            if (!confirm("Bạn có chắc chắn xoá?"))
+                return;
+            $.ajax(
+                {
+                    url: '/HoaDon/DelColumnProduct/' + idproduct + '/',
+                    method: "post",
+                    success: function (data) {
+                        if (data.isvalid) {
+                            atag.closest('tr').remove();
+                            LoadTongTien();
+                            LoadTonKho();
+                            return;
+                        }
+                        alert(data.msg);
+                    },
+                    failed: function () {
+
+                    }
+                }
+            )
+        });
+
+        function LoadTongTien() {
+            // lấy mã hoá đơn
+            var maHD = $('#maHD').attr('data');
+            $.ajax({
+                url: '/HoaDon/LoadTongTien/',
+                method: "get",
+                data: { maHD: maHD },
+                success: function (data) {
+
+                    console.log(data);
+                    var html = '';
+                    $.each(data, function (key, item) {
+                        html += '<tr>';
+                        html += '<td class="left"><strong>Tổng giá tiền sản phẩm</strong></td>';
+                        html += '<td class="right" id="tongtien" data="' + item.tongtien + '">' + item.tongtien + '</td>';
+                        html += '</tr>';
+                        html += '<tr>';
+                        html += '<td class="left"><strong>Giảm giá </strong>';
+                        html += '<select name="discount" id="discount" onchange="GiamGia()">';
+                        html += '<option value="-1">Chọn mã giảm giá</option>';
+                        html += '<option value="0">Không giảm</option>';
+                        html += '<option value="10">10%</option>';
+                        html += '<option value="20">20%</option>';
+                        html += '</select>';
+                        html += '</td>';
+                        html += '<td class="right" id="tienduocgiam">' + item.giamgia + '</td>';
+                        html += '</tr>';
+                        html += '<tr>';
+                        html += '<td class="left"><strong>Cần phải trả</strong></td>';
+                        html += '<td class="right" id="tiencantra"><strong>' + item.tiencantra + '</strong></td>';
+                        html += '</tr>';
+                    });
+                    $("#hienthitongtien").html(html);
+                    GiamGia();
+                },
+                failed: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.status);
+                    console.log(thrownError);
+                }
+            })
+        }
+
+        function GiamGia() {
+            var dis = $("#discount").val();
+            if (dis === '-1') {
+                var tongtien = $("#tongtien").attr('data');
+                var tienduocgiam = $("#tienduocgiam").html();
+                var tiencantra = tongtien - tienduocgiam;
+            } else {
+                var tongtien = $("#tongtien").attr('data');
+                var tienduocgiam = tongtien * dis / 100;
+                var tiencantra = tongtien - tienduocgiam;
+            }
+
+
+            $("#tienduocgiam").text(tienduocgiam);
+            $("#tiencantra").text(tiencantra);
+
+            var maHD = $('#maHD').attr('data');
+            $.ajax({
+                url: '/HoaDon/UpdateTongTien/' + maHD + '/',
+                method: "post",
+                data: { maHD: maHD, giamgia: tienduocgiam, tiencantra: tiencantra, tongtien: tongtien },
+                success: function (data) {
+                    console.log(data);
+                },
+                failed: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.status);
+                    console.log(thrownError);
+                }
+            })
+        }
+
+        function LoadTonKho() {
+            //lấy ra tồn kho sản phẩm
+            //var tonkho = $("#tonkho").text();
+            //console.log(prevRow);
+            $.ajax({
+                url: '/HoaDon/LoadTonKho/',
+                method: "get",
+                success: function (data) {
+                    var html = '';
+                    $.each(data, function (key, item) {
+                        html += '' + item.tonkho + '';
+                        $("#tonkho-" + item.maSP + "").html(html);
+                        html = '';
+                    });
+
+                },
+                failed: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.status);
+                    console.log(thrownError);
+                }
+            })
+        }
+
+
+        function imgClick(hinhanh) {
+            $('#imagepreview').attr('src', $(`#${hinhanh}`).attr('src'));
+            $('#imagemodal').modal('show');
+        }
+    </script>
+}
